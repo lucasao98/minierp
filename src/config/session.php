@@ -24,7 +24,7 @@ function getProductsSelected() {
 
 function add_cart($product) {
     // Verifica se todos os parâmetros necessários estão presentes
-    if (!isset($product) && !isset($product->id_product) && !isset($product->product_name) && !isset($product->product_price) && !isset($product->product_variation)) {
+    if (!isset($product) && !isset($product->id_product) && !isset($product->product_name) && !isset($product->product_price) && !isset($product->product_variation) && !isset($product->product_quantity)) {
         return json_encode([
             'success' => false,
             'message' => 'Parametros incompletos!'
@@ -47,7 +47,8 @@ function add_cart($product) {
 
 function remove_cart($id_product) {
     if(isset($_SESSION['cart'])) {
-        $productKeyFound = array_search($id_product->id_product, array_column($_SESSION['cart'] , 'product_id'));
+        // $productKeyFound = array_search($id_product->id_product, array_column($_SESSION['cart'] , 'product_id'));
+        $productKeyFound = searchProductInCart($_SESSION['cart'], $id_product);
         
         if(gettype($productKeyFound) == 'boolean'){
             // Retorna resposta JSON de sucesso
@@ -58,7 +59,7 @@ function remove_cart($id_product) {
         }
         
         unset($_SESSION['cart'][$productKeyFound]);
-
+        
         // Retorna resposta JSON de sucesso
         return json_encode([
             'success' => true,
@@ -77,7 +78,14 @@ function setDeliveryPrice() {
     }else{
         return 20;
     }
+}
 
+function searchProductInCart($cart_list, $id_product) {
+    foreach ($cart_list as $productKey => $product) {
+        if($product['product_id'] === $id_product) {
+            return $productKey;
+        }
+    }
 }
 
 function totalPriceProducts() {

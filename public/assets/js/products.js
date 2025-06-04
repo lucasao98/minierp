@@ -21,7 +21,8 @@ $(document).ready(() => {
             id_product: $(this).data('id'),
             product_name: $(this).data('name'),
             product_price: $(this).data('price'),
-            product_variation: $(this).data('variation')
+            product_variation: $(this).data('variation'),
+            product_quantity: $(this).val(),
         };
 
         removeProductCart(product);

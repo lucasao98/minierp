@@ -1,6 +1,6 @@
 <?php
     function connect_db() {
-        $host = "172.20.0.2";
+        $host = "localhost";
         $dbname = "montinkerp";
         $connection = "mysql:host=" . $host . ";dbname=" . $dbname ;
         $user_name = "root";

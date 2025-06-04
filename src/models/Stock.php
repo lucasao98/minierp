@@ -78,11 +78,12 @@ class Stock {
             $statment = $pdo->prepare("SELECT * FROM stock WHERE product_id = :id");
             $statment->bindParam(":id", $product_id);
             $statment->execute();
-            $stock = $statment->fetch(PDO::FETCH_OBJ);
+            $found_stock = $statment->fetch(PDO::FETCH_OBJ);
 
-            self::setTotalProduct($stock->total_product);
-            self::setLastUpdate($stock->last_update);
-            self::setIdStock($stock->id_stock);
+            self::setTotalProduct($found_stock->total_product);
+            self::setLastUpdate($found_stock->last_update);
+            self::setIdStock($found_stock->id_stock);
+            return $this;
         } catch (PDOException $e) {
             var_dump($e->getMessage());
         }
@@ -134,6 +135,29 @@ class Stock {
             return $product;
         } catch (PDOException $e) {
             var_dump($e->getMessage());
+        }
+    }
+
+    public function checkProductInStock() {
+        if($this->total_product > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    public function sendProduct() {
+        if(self::checkProductInStock()){
+            $this->setTotalProduct(strval($this->total_product) - 1);
+
+            $update_stock = [
+                'id' => $this->getStockId(),
+                'total_product' => $this->getTotalProduct(),
+                'last_update' => date("Y-m-d H:i:s")
+            ];
+
+            $updated_stock = self::update($update_stock);
+            
+            return $updated_stock;
         }
     }
 

@@ -1,0 +1,28 @@
+CREATE TABLE products(
+	id_product INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	product_name VARCHAR(100) NOT NULL,
+	product_price FLOAT NOT NULL,
+	product_variation VARCHAR(155) NOT NULL,
+	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE orders(
+	id_order INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	product_quantity INT NOT NULL,
+	total_order_price FLOAT NOT NULL,
+	product_id INT NOT NULL,
+	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	
+	
+	FOREIGN KEY (product_id) REFERENCES products(id_product) ON DELETE CASCADE
+);
+
+
+CREATE TABLE stock(
+	id_stock INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	total_product INT NOT NULL,
+	last_update TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL,
+	product_id INT NOT NULL,
+	
+	FOREIGN KEY (product_id) REFERENCES products(id_product) ON DELETE CASCADE
+);

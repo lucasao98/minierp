@@ -83,11 +83,17 @@
                                 "&product_variation=" . $stock->product()->product_variation .
                                 "&total_product=" . $stock->getTotalProduct(); ?>"
                                 class="btn btn-primary">Editar</a>
+
+                                <div>
+                                    
+                                </div>
                             </td>
-                            <td>
+                            <td class="d-flex">
                                 <?php 
                                     if(!inCart($stock->product()->id_product)){
                                 ?>
+
+
                                 <a 
                                     data-id="<?= $stock->product()->id_product;?>"
                                     data-name="<?= $stock->product()->product_name; ?>"
@@ -96,11 +102,15 @@
                                     class="btn btn-success add_product_cart">
                                     <i class="bi bi-cart-plus"></i>
                                 </a>
+                                
                                 <a 
-                                    data-id="<?= $stock->product()->id_product;?>"
-                                    class="btn btn-warning remove_product_cart d-none">
-                                    <i class="bi bi-cart-dash"></i>
+                                data-id="<?= $stock->product()->id_product;?>"
+                                class="btn btn-warning remove_product_cart d-none">
+                                <i class="bi bi-cart-dash"></i>
                                 </a>
+                                
+                                
+                                
                                 <?php }else{ ?>
                                 <a 
                                     data-id="<?= $stock->product()->id_product;?>"

@@ -33,8 +33,8 @@ if($_GET['method'] === 'add') {
     $request = file_get_contents('php://input');
 
     $product_id = json_decode($request);
-
-    $response_cart = remove_cart($product_id);
+    
+    $response_cart = remove_cart($product_id->id_product);
 
     $response['message'] = 'Sucesso';
     $response['status'] = 200;
