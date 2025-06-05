@@ -1,7 +1,8 @@
 <?php
 
 // No topo do Stock.php
-require_once __DIR__ . '/../config/connection.php';
+require_once __DIR__ . "/../config/connection.php";
+require_once __DIR__ . "/../utils/utils.php";
 
 class Stock {
     private $id_stock;
@@ -152,7 +153,7 @@ class Stock {
             $update_stock = [
                 'id' => $this->getStockId(),
                 'total_product' => $this->getTotalProduct(),
-                'last_update' => date("Y-m-d H:i:s")
+                'last_update' => getDatetime()
             ];
 
             $updated_stock = self::update($update_stock);

@@ -11,7 +11,7 @@
 
 <body>
     <div class="container-fluid wrapper-full-page">
-        <aside id="wrapper-menu" class="bg-secondary">
+        <aside id="wrapper-menu">
             <div class="d-flex flex-column p-3" style="width: 280px;"> 
                 <span class="fs-4 text-white">Menu</span>
                 <hr>
@@ -23,14 +23,19 @@
                     </li>
                     <li>
                         <a href="/create_product.php" class="nav-link text-white">
-                            Cadaastro de Produtos
+                            Cadastro de Produtos
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/cart.php" class="nav-link text-white">
+                            Carrinho
                         </a>
                     </li>
                 </ul>
             </div>
         </aside>
         <main class="wrapper-content">
-            <div class="wrapper-content-title bg-secondary text-white p-2">
+            <div class="wrapper-content-title text-white p-2">
                 <h1>
                     Atualização de Produtos
                 </h1>
@@ -96,7 +101,7 @@
                 </div>
             </div>
         </main>
-        <footer class="wrapper-footer bg-secondary">
+        <footer class="wrapper-footer">
             Criado por Luca Sacramento de Oliveira
         </footer>
     </div>

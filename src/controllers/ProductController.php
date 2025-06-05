@@ -1,6 +1,7 @@
 <?php
     require_once '../models/Product.php';
     require_once '../models/Stock.php';
+    require_once "../utils/utils.php";
 
     if($_GET['method'] === 'create'){
         if(!empty($_POST['productName']) && !empty($_POST['productPrice']) && !empty($_POST['productVariation']) && !empty($_POST['totalProduct'])){
@@ -17,8 +18,10 @@
             }
     
             $stock = new Stock();
+            
+            $now = new \DateTime();
             $stock->setTotalProduct($_POST['totalProduct']);
-            $stock->setLastUpdate(date("Y-m-d H:i:s"));
+            $stock->setLastUpdate(getDatetime());
             $stock->setProductId($last_product_id);
 
             $stock->store();
@@ -52,7 +55,7 @@
                 $update_stock = [
                     'id' => $stock->getStockId(),
                     'total_product' => $_POST['totalProduct'],
-                    'last_update' => date("Y-m-d H:i:s")
+                    'last_update' => getDatetime()
                 ];
 
                 $updated_stock = $stock->update($update_stock);

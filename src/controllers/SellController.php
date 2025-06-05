@@ -3,6 +3,7 @@
 require "../config/connection.php";
 require "../models/Stock.php";
 require "../models/Order.php";
+require "../utils/utils.php";
 
 $response = [
     'message' => null,
@@ -31,7 +32,7 @@ if($_GET['method'] == 'add') {
                 $order->setProductQuantity(1);
                 $order->setTotalOrderPrice($product['product_price']);
                 $order->setProductId($product['product_id']);
-                $order->setCreatedAt(date("Y-m-d H:i:s"));
+                $order->setCreatedAt(getDatetime());
                 $order->store();
             }
         }

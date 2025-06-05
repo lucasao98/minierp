@@ -88,7 +88,7 @@ class Product {
                 $statment->bindParam(':name', $this->name);
                 $statment->bindParam(':price', $this->price);
                 $statment->bindParam(':variation', $this->variation);
-                $statment->bindParam(':created_at', date("Y-m-d H:i:s"));
+                $statment->bindParam(':created_at', getDatetime());
                 $statment->execute();
 
                 return $pdo->lastInsertId();
