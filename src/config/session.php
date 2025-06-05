@@ -12,6 +12,14 @@ function inCart($product_id) {
     }
 }
 
+function getProductInCart($product_id) {
+    foreach ($_SESSION['cart'] as $productKey => $product) {
+        if(strval($product['product_id']) === strval($product_id)){
+            return $product;
+        }
+    }
+}
+
 function initCart(){
     if(!isset($_SESSION['cart'])){
         $_SESSION['cart'] = [];
@@ -35,7 +43,8 @@ function add_cart($product) {
         'product_id' => $product->id_product,
         'product_name' => $product->product_name,
         'product_price' => (float) $product->product_price,
-        'product_variation' => $product->product_variation
+        'product_variation' => $product->product_variation,
+        'product_quantity' => $product->product_quantity
     ];
 
     // Retorna resposta JSON de sucesso
@@ -95,7 +104,7 @@ function totalPriceProducts() {
         $products_selected = $_SESSION['cart'];
 
         foreach ($products_selected as $productKey => $product) {
-            $total_products_price += $product['product_price'];
+            $total_products_price += ($product['product_price'] * $product['product_quantity'] );
         }
     }
     return $total_products_price;

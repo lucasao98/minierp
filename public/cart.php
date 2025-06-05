@@ -1,5 +1,9 @@
 <?php 
     require "../src/config/session.php";
+    if($_SESSION['cart']) {
+        $cartJson = json_encode($_SESSION['cart']);
+        $escapedCartJson = htmlspecialchars($cartJson, ENT_QUOTES, 'UTF-8');
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -60,10 +64,10 @@
                             ?>
                             <li class="list-group-item d-flex justify-content-between lh-sm">
                                 <div>
-                                    <h6 class="my-0"><?= $product['product_name']; ?></h6>
+                                    <h6 class="my-0"><?= $product['product_name']; ?> (x <?= $product['product_quantity']; ?>)</h6>
                                     <small class="text-body-secondary"><?= $product['product_variation']; ?></small>
                                 </div>
-                                <span class="text-body-secondary">R$ <?= number_format($product['product_price'], 2, ',', '.'); ?></span>
+                                <span class="text-body-secondary">R$ <?= number_format($product['product_price'] * $product['product_quantity'], 2, ',', '.'); ?></span>
                             </li>
                             <?php    
                                 }
@@ -93,8 +97,10 @@
                                 <button type="submit" class="btn btn-primary">Buscar</button>
                             </div>
                         </form>
-
-                        <a class="btn btn-success mt-2" href="http://">Finalizar Compra</a>
+                        <form method="post" action="/sell?method=add">
+                            <input type="text" id="cart_json" name="cart" value="<?= $escapedCartJson; ?>" hidden>
+                            <button class="btn btn-success" <?= count($_SESSION['cart']) >= 1 ? '' : 'disabled'; ?> id="registerOrder" type="submit">Finalizar Compra</button>
+                        </form>
                     </div>
                 </div>
                 <?php }else{ ?>
@@ -135,6 +141,5 @@
     crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.7.1.slim.js" integrity="sha256-UgvvN8vBkgO0luPSUl2s8TIlOSYRoGFAX4jlCIm9Adc=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="./assets/js/products.js"></script>
 
 </html>

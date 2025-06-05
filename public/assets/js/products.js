@@ -1,22 +1,37 @@
 $(document).ready(() => {
     checkFields();
     verifyStatus();
-    $('.add_product_cart').on('click', function(){
-        const product = {
-            id_product: $(this).data('id'),
-            product_name: $(this).data('name'),
-            product_price: $(this).data('price'),
-            product_variation: $(this).data('variation')
-        };
+    $('.input-area .add_product_cart').on('click', function(){
+        let parent = $(this).parent();
+        let product_quantity_value = (parent.children('.product_quantity').val());
 
-        setProductCart(product);
-        $(this).addClass('d-none');
-        let remove_cart_button = $(this).siblings('.remove_product_cart')[0];
-        $(remove_cart_button).removeClass('d-none');
+        if(product_quantity_value <= 0){
+            Swal.fire({
+                title: "Erro na Quantidade de Produto",
+                text: "Quantidade do Produto não pode ser nulo",
+                icon: "error"
+            });
+        }else{
+            const product = {
+                id_product: $(this).data('id'),
+                product_name: $(this).data('name'),
+                product_price: $(this).data('price'),
+                product_variation: $(this).data('variation'),
+                product_quantity: parseInt(product_quantity_value)
+            };
+
+            setProductCart(product);
+            $(this).addClass('d-none');
+            let remove_cart_button = $(this).siblings('.remove_product_cart')[0];
+            $(remove_cart_button).removeClass('d-none');
+        }
 
     });
     
-    $('.remove_product_cart').on('click', function(){
+    $('.input-area .remove_product_cart').on('click', function(){
+        let parent = $(this).parent();
+        parent.children('.product_quantity').val(0);
+
         const product = {
             id_product: $(this).data('id'),
             product_name: $(this).data('name'),
@@ -114,4 +129,8 @@ function removeProductCart(product) {
     }).catch(error => {
         console.error("Erro ao remover produto do carrinho:", error);
     })
+}
+
+function initProductQuantity() {
+    $(".product_quantity").val(0);
 }

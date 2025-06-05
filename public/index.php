@@ -88,7 +88,8 @@
                                     
                                 </div>
                             </td>
-                            <td class="d-flex">
+                            <td class="d-flex input-area gap-2">
+                                <input type="number" class="product_quantity" min="0" value="<?= inCart($stock->product()->id_product) ? getProductInCart($stock->product()->id_product)['product_quantity'] : 0;  ?>">
                                 <?php 
                                     if(!inCart($stock->product()->id_product)){
                                 ?>
