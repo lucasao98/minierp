@@ -1,6 +1,7 @@
 <?php
     function connect_db() {
-        $host = "localhost";
+        //$host = "172.19.0.2";
+        $host = "minierp_minierp-mysql";
         $dbname = "montinkerp";
         $connection = "mysql:host=" . $host . ";dbname=" . $dbname ;
         $user_name = "root";
