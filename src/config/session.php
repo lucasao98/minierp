@@ -81,12 +81,15 @@ function setDeliveryPrice() {
     $totalPurchaseValue = totalPriceProducts();
 
     if($totalPurchaseValue >= 52.00 && $totalPurchaseValue <= 166.59) {
+        $_SESSION['delivery_price'] = 15.00;
         return 15.00;
     }else if($totalPurchaseValue > 200.00){
+        $_SESSION['delivery_price'] = 0;
         return 0;
     }else{
+        $_SESSION['delivery_price'] = 20.00;
         return 20;
-    }
+    }    
 }
 
 function searchProductInCart($cart_list, $id_product) {
@@ -111,9 +114,33 @@ function totalPriceProducts() {
 }
 
 function finalPrice() {
-    return totalPriceProducts() + setDeliveryPrice();
+    $total_order = totalPriceProducts() + setDeliveryPrice();
+
+    if(isset($_SESSION['coupon'])) {
+        return $total_order -= ($total_order * $_SESSION['coupon']['coupon_discount']);
+    }
+    return $total_order;
 }
 
 function totalProductsSelected(){
-    return $products_quant = count($_SESSION['cart']);
+    return count($_SESSION['cart']);
+}
+
+function initDeliveryPrice() {
+    if(!isset($_SESSION['delivery_price'])){
+        $_SESSION['delivery_price'] = 0;
+    }
+}
+
+function setCoupon($coupon) {
+    if(isset($_SESSION['coupon'])) {
+        $_SESSION['coupon'] = $coupon;
+    }
+    
+    $_SESSION['coupon'] = [
+        'coupon_id' => $coupon->getCouponId(),
+        'coupon_code' => $coupon->getCouponCode(),
+        'coupon_discount' => $coupon->getDiscount(),
+        'coupon_minimum_price' => $coupon->getMinimumPrice()
+    ];
 }

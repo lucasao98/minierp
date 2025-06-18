@@ -94,8 +94,10 @@
                                         </div>
                                 </div>
                             </div>
-
-                            <button class="w-50 btn btn-success btn-lg mt-2" type="submit">Atualizar Produto</button>
+                            <div class="mt-3 d-flex gap-2 p-2">
+                                <a class="btn btn-warning" href="http://localhost:8001/">Voltar</a>
+                                <button class="w-25 btn btn-success" type="submit">Atualizar Produto</button>
+                            </div>
                         </form>
                     </div>
                 </div>

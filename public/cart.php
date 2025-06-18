@@ -1,9 +1,5 @@
 <?php 
     require "../src/config/session.php";
-    if($_SESSION['cart']) {
-        $cartJson = json_encode($_SESSION['cart']);
-        $escapedCartJson = htmlspecialchars($cartJson, ENT_QUOTES, 'UTF-8');
-    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -53,11 +49,19 @@
                 <?php if(isset($_SESSION['cart'])){ ?>
                 <div class="row">
                     <div class="col-md-5 col-lg-4 order-md-last">
+                        <div class="card p-2 mt-3 mb-4">
+                            <div class="input-cep">
+                                <input type="text" id="cep" class="form-control" placeholder="Informe seu CEP">
+                                <button id="getCep" class="btn btn-primary">Buscar</button>
+                            </div>
+                        </div>
+                        <div class="card d-none" id="address"></div>
+
                         <h4 class="d-flex justify-content-between align-items-center mb-3">
                             <span class="text-primary">Carrinho</span>
                             <span class="badge bg-primary rounded-pill"><?= totalProductsSelected(); ?></span>
                         </h4>
-                        
+
                         <ul class="list-group mb-3">
                             <?php 
                                 foreach ($_SESSION['cart'] as $productKey => $product) {
@@ -78,29 +82,33 @@
                                 </div>
                                 <span class="text-success"><?= number_format(setDeliveryPrice(), 2, ',', '.'); ?></span>
                             </li>
+                            <li id="discount_coupon" class="list-group-item d-flex justify-content-between d-none">
+                                <span>Desconto</span>
+                                <strong id="percentage_discount" class="text-danger"></strong>
+                            </li>
+                            <?php if(isset($_SESSION['coupon'])){ ?>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span>Desconto</span>
+                                <strong id="percentage_discount" class="text-danger"> <?= $_SESSION['coupon']['coupon_discount'] * 100; ?> %</strong>
+                            </li>
+                            <?php } ?>
                             <li class="list-group-item d-flex justify-content-between">
                                 <span>Total (BRL)</span>
-                                <strong>R$ <?= number_format(finalPrice(), 2, ',', '.'); ?></strong>
+                                <strong id="final_price">R$ <?= number_format(finalPrice(), 2, ',', '.'); ?></strong>
                             </li>
                         </ul>
                         
-                        <form class="card p-2">
+                        <div class="card p-2 mb-3">
                             <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Promo code">
-                                <button type="submit" class="btn btn-success">Ativar</button>
+                                <input type="text" class="form-control" placeholder="Cupom" id="input_coupon">
+                                <button type="submit" id="submit_coupon" class="btn btn-success">Ativar</button>
                             </div>
-                        </form>
+                        </div>
 
-                        <form class="card p-2 mt-3 mb-3">
-                            <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Informe seu CEP">
-                                <button type="submit" class="btn btn-primary">Buscar</button>
-                            </div>
-                        </form>
-                        <form method="post" action="/sell?method=add">
-                            <input type="text" id="cart_json" name="cart" value="<?= $escapedCartJson; ?>" hidden>
+                        
+                        <div id="checkout">
                             <button class="btn btn-success" <?= count($_SESSION['cart']) >= 1 ? '' : 'disabled'; ?> id="registerOrder" type="submit">Finalizar Compra</button>
-                        </form>
+                        </div>
                     </div>
                 </div>
                 <?php }else{ ?>
@@ -141,5 +149,7 @@
     crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.7.1.slim.js" integrity="sha256-UgvvN8vBkgO0luPSUl2s8TIlOSYRoGFAX4jlCIm9Adc=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="./assets/js/cart.js"></script>
+<script src="./assets/js/jquery.mask.js"></script>
 
 </html>

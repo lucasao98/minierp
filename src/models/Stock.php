@@ -1,6 +1,4 @@
 <?php
-
-// No topo do Stock.php
 require_once __DIR__ . "/../config/connection.php";
 require_once __DIR__ . "/../utils/utils.php";
 
@@ -146,9 +144,9 @@ class Stock {
         return false;
     }
 
-    public function sendProduct() {
+    public function sendProduct($product_quantity_selected) {
         if(self::checkProductInStock()){
-            $this->setTotalProduct(strval($this->total_product) - 1);
+            $this->setTotalProduct(strval($this->total_product) - $product_quantity_selected);
 
             $update_stock = [
                 'id' => $this->getStockId(),
