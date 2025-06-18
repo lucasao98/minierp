@@ -1,0 +1,30 @@
+version: '3'
+services:
+  minierp-test:
+    build: .
+    volumes:
+      - ./:/var/www
+    depends_on:
+      - minierp-mysql
+
+
+  minierp-mysql:
+    image: mysql:5.7.22
+    command: --innodb-use-native-aio=0
+    restart: always
+    ports:
+      - "3306"
+    volumes:
+      - "./.docker/dbdata:/var/lib/mysql"
+    environment:
+      MYSQL_DATABASE: montinkerp
+      MYSQL_ROOT_PASSWORD: root
+  minierp-nginx:
+    build: ./.docker/nginx
+    restart: always
+    ports:
+      - "8001:80"
+    volumes:
+      - ./:/var/www
+    depends_on:
+      - minierp-test
